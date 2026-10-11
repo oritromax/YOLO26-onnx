@@ -16,21 +16,41 @@ Upstream only publishes mAP at 640, so this table has no mAP columns. FLOPs are 
 
 | Model | Test Size | Param. | FLOPs | Exported | Tested |
 | :-- | :-: | :-: | :-: | :-: | :-: |
-| [**YOLO26-N**](yolo26-n-320.onnx) | 320 | **2.4M** | **~1.4G** | ✅ | ⬜ |
-| [**YOLO26-S**](yolo26-s-320.onnx) | 320 | **9.5M** | **~5.2G** | ✅ | ⬜ |
-| [**YOLO26-M**](yolo26-m-320.onnx) | 320 | **20.4M** | **~17.1G** | ✅ | ⬜ |
-| [**YOLO26-L**](yolo26-l-320.onnx) | 320 | **24.8M** | **~21.7G** | ✅ | ⬜ |
-| [**YOLO26-X**](https://github.com/oritromax/YOLO26-onnx/releases/tag/yolo26-x-320) | 320 | **55.7M** | **~48.6G** | ✅ | ⬜ |
+| [**YOLO26-N**](yolo26-n-320.onnx) | 320 | **2.4M** | **~1.4G** | ✅ | ✅ |
+| [**YOLO26-S**](yolo26-s-320.onnx) | 320 | **9.5M** | **~5.2G** | ✅ | ✅ |
+| [**YOLO26-M**](yolo26-m-320.onnx) | 320 | **20.4M** | **~17.1G** | ✅ | ✅ |
+| [**YOLO26-L**](yolo26-l-320.onnx) | 320 | **24.8M** | **~21.7G** | ✅ | ✅ |
+| [**YOLO26-X**](https://github.com/oritromax/YOLO26-onnx/releases/tag/yolo26-x-320) | 320 | **55.7M** | **~48.6G** | ✅ | ✅ |
 
 ## 640
 
 | Model | Test Size | mAP<sup>val</sup> 50-95 | T4 TensorRT10 | Param. | FLOPs | Exported | Tested |
 | :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| [**YOLO26-N**](yolo26-n-640.onnx) | 640 | **40.9%** | **1.7 ms** | **2.4M** | **5.5G** | ✅ | ⬜ |
-| [**YOLO26-S**](yolo26-s-640.onnx) | 640 | **48.6%** | **2.5 ms** | **9.5M** | **20.9G** | ✅ | ⬜ |
-| [**YOLO26-M**](yolo26-m-640.onnx) | 640 | **53.1%** | **4.7 ms** | **20.4M** | **68.4G** | ✅ | ⬜ |
-| [**YOLO26-L**](yolo26-l-640.onnx) | 640 | **55.0%** | **6.2 ms** | **24.8M** | **86.8G** | ✅ | ⬜ |
-| [**YOLO26-X**](https://github.com/oritromax/YOLO26-onnx/releases/tag/yolo26-x-640) | 640 | **57.5%** | **11.8 ms** | **55.7M** | **194.4G** | ✅ | ⬜ |
+| [**YOLO26-N**](yolo26-n-640.onnx) | 640 | **40.9%** | **1.7 ms** | **2.4M** | **5.5G** | ✅ | ✅ |
+| [**YOLO26-S**](yolo26-s-640.onnx) | 640 | **48.6%** | **2.5 ms** | **9.5M** | **20.9G** | ✅ | ✅ |
+| [**YOLO26-M**](yolo26-m-640.onnx) | 640 | **53.1%** | **4.7 ms** | **20.4M** | **68.4G** | ✅ | ✅ |
+| [**YOLO26-L**](yolo26-l-640.onnx) | 640 | **55.0%** | **6.2 ms** | **24.8M** | **86.8G** | ✅ | ✅ |
+| [**YOLO26-X**](https://github.com/oritromax/YOLO26-onnx/releases/tag/yolo26-x-640) | 640 | **57.5%** | **11.8 ms** | **55.7M** | **194.4G** | ✅ | ✅ |
+
+## Test results
+
+Tested in Frigate 0.17.1 (`-tensorrt` image, `onnx` detector on CUDA, RTX 2080 Ti), `yolo-generic`, against a 70 s indoor recording with three people in frame, looped at detect 1280x720 @ 5 fps. Every model loaded, created person events, and kept every score within 0 to 1. YOLOv9-S is included as the baseline.
+
+| Model | Size | Frigate inference | Person events | Avg top score | Max top score |
+| :-- | :-: | :-: | :-: | :-: | :-: |
+| YOLO26-N | 320 | 4.1 ms | 6 | 0.84 | 0.90 |
+| YOLO26-N | 640 | 13.9 ms | 8 | 0.81 | 0.89 |
+| YOLO26-S | 320 | 5.3 ms | 9 | 0.86 | 0.93 |
+| YOLO26-S | 640 | 14.3 ms | 13 | 0.84 | 0.91 |
+| YOLO26-M | 320 | 7.8 ms | 6 | 0.84 | 0.94 |
+| YOLO26-M | 640 | 16.3 ms | 7 | 0.85 | 0.94 |
+| YOLO26-L | 320 | 9.7 ms | 5 | 0.87 | 0.94 |
+| YOLO26-L | 640 | 24.0 ms | 6 | 0.86 | 0.94 |
+| YOLO26-X | 320 | 17.0 ms | 4 | 0.92 | 0.94 |
+| YOLO26-X | 640 | 28.1 ms | 4 | 0.92 | 0.95 |
+| *YOLOv9-S (baseline)* | *640* | *16.3 ms* | *10* | *0.90* | *0.93* |
+
+Fewer events is better here: the clip has three people, and a model that keeps losing and re-finding someone opens a new event each time.
 
 The X models are over GitHub's 100 MB per-file limit, so they are release downloads instead of repo files.
 
