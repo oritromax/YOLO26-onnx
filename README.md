@@ -36,21 +36,21 @@ Upstream only publishes mAP at 640, so this table has no mAP columns. FLOPs are 
 
 Tested in Frigate 0.17.1 (`-tensorrt` image, `onnx` detector on CUDA, RTX 2080 Ti), `yolo-generic`, against a 70 s indoor recording with three people in frame, looped at detect 1280x720 @ 5 fps. Every model loaded, created person events, and kept every score within 0 to 1. YOLOv9-S is included as the baseline.
 
-| Model | Size | Frigate inference | Person events | Avg top score | Max top score |
-| :-- | :-: | :-: | :-: | :-: | :-: |
-| YOLO26-N | 320 | 4.1 ms | 6 | 0.84 | 0.90 |
-| YOLO26-N | 640 | 13.9 ms | 8 | 0.81 | 0.89 |
-| YOLO26-S | 320 | 5.3 ms | 9 | 0.86 | 0.93 |
-| YOLO26-S | 640 | 14.3 ms | 13 | 0.84 | 0.91 |
-| YOLO26-M | 320 | 7.8 ms | 6 | 0.84 | 0.94 |
-| YOLO26-M | 640 | 16.3 ms | 7 | 0.85 | 0.94 |
-| YOLO26-L | 320 | 9.7 ms | 5 | 0.87 | 0.94 |
-| YOLO26-L | 640 | 24.0 ms | 6 | 0.86 | 0.94 |
-| YOLO26-X | 320 | 17.0 ms | 4 | 0.92 | 0.94 |
-| YOLO26-X | 640 | 28.1 ms | 4 | 0.92 | 0.95 |
-| *YOLOv9-S (baseline)* | *640* | *16.3 ms* | *10* | *0.90* | *0.93* |
+| Model | Size | Run | Frigate inference | Person events | Avg top score | Max top score |
+| :-- | :-: | :-: | :-: | :-: | :-: | :-: |
+| YOLO26-N | 320 | 150 s | 4.1 ms | 6 | 0.84 | 0.90 |
+| YOLO26-N | 640 | 150 s | 13.9 ms | 8 | 0.81 | 0.89 |
+| YOLO26-S | 320 | 240 s | 5.3 ms | 9 | 0.86 | 0.93 |
+| YOLO26-S | 640 | 240 s | 14.3 ms | 13 | 0.84 | 0.91 |
+| YOLO26-M | 320 | 150 s | 7.8 ms | 6 | 0.84 | 0.94 |
+| YOLO26-M | 640 | 150 s | 16.3 ms | 7 | 0.85 | 0.94 |
+| YOLO26-L | 320 | 150 s | 9.7 ms | 5 | 0.87 | 0.94 |
+| YOLO26-L | 640 | 150 s | 24.0 ms | 6 | 0.86 | 0.94 |
+| YOLO26-X | 320 | 150 s | 17.0 ms | 4 | 0.92 | 0.94 |
+| YOLO26-X | 640 | 150 s | 28.1 ms | 4 | 0.92 | 0.95 |
+| *YOLOv9-S (baseline)* | *640* | *240 s* | *16.3 ms* | *10* | *0.90* | *0.93* |
 
-Fewer events is better here: the clip has three people, and a model that keeps losing and re-finding someone opens a new event each time.
+Event counts depend on run length (the clip loops), so compare them only between rows with the same Run time.
 
 The X models are over GitHub's 100 MB per-file limit, so they are release downloads instead of repo files.
 
